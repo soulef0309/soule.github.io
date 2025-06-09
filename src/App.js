@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './Components/Header';
+import PortfolioHomepage from './Components/PortfolioHomepage';
+import About from './Components/About';
+import Skills from './Components/Skills';
+import Projects from './Components/Projects';
+import Contact from './Components/Contact';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+
+      {/* Optional Home section (for logo scroll) */}
+      <div id="home">
+        {/* If you have a hero or top content, put it here */}
+      </div>
+
+      <div id="portfolio">
+        <PortfolioHomepage />
+      </div>
+
+      <div id="about">
+        <About />
+      </div>
+
+      <div id="skills">
+        <Skills />
+      </div>
+
+      <div id="projects">
+        <Projects />
+      </div>
+
+      <div id="contact">
+        <Contact />
+      </div>
     </div>
   );
 }
