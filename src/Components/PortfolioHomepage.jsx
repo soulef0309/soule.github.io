@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styled, { keyframes } from 'styled-components';
 import port from './pics/port.jpg'; // Adjust the path as necessary
 
@@ -12,10 +12,12 @@ const sparkle = keyframes`
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.2); }
 `;
-
-// Main container
 const Homecontanaire = styled.div`
+padding-top: 80px; // Add this to your Homecontanaire
+
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   min-height: 400px;
   background: linear-gradient(135deg, #8B4F9F 0%, #5B2A86 50%, #4A1E6B 100%);
@@ -23,9 +25,16 @@ const Homecontanaire = styled.div`
   position: relative;
   overflow: hidden;
   padding: 0;
+@media (max-width: 767px) {
+  padding-top: 120px; // More padding on mobile
+}
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
-// Left side with image and overlaid text
 const ImageSection = styled.div`
   position: relative;
   flex: 1;
@@ -33,6 +42,22 @@ const ImageSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1024px) {
+    height: auto;
+    width: 100%;
+    padding-top: 2rem;
+  }
+`;
+
+const BackgroundSection = styled.div`
+  flex: 1;
+  height: 100vh;
+  position: relative;
+
+  @media (max-width: 1024px) {
+    display: none; /* Hide or move below image if you want it stacked */
+  }
 `;
 
 // Image container
@@ -57,8 +82,6 @@ const Pic = styled.div`
     height: 400px;
   }
 `;
-
-// Large PORTFOLIO text overlay
 const PortfolioOverlay = styled.div`
   position: absolute;
   top: 23%;
@@ -66,16 +89,21 @@ const PortfolioOverlay = styled.div`
   transform: translate(-50%, -50%);
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
-  font-style: normal;
   font-size: 10rem;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: 0.1em;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   z-index: 10;
   white-space: nowrap;
-  
-  @media (max-width: 768px) {
+
+  @media (max-width: 1024px) {
+    font-size: 5rem;
+    left: 50%;
+  }
+
+  @media (max-width: 600px) {
     font-size: 3rem;
+    top: 10%;
   }
 `;
 
@@ -106,30 +134,27 @@ const DescriptionText = styled.p`
   color: white;
   font-weight: 400;
 `;
-
-// Right side - background pattern area
-const BackgroundSection = styled.div`
-  flex: 1;
-  height: 100vh;
-  position: relative;
-
-`;
 const BackgroundText = styled.div`
   position: absolute;
   top: ${props => props.top || '23%'};
-left: 100%;  
-transform: translate(-50%, -50%);
+  left: 100%;
+  transform: translate(-50%, -50%);
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
-  font-style: normal;
   font-size: 10rem;
   color: rgba(255, 255, 255, 0.05);
   letter-spacing: 0.1em;
   z-index: 1;
   white-space: nowrap;
-  
-  @media (max-width: 768px) {
-    font-size: 4rem;
+
+  @media (max-width: 1024px) {
+    font-size: 5rem;
+    left: 50%;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 3rem;
+    top: auto;
   }
 `;
 
@@ -208,3 +233,4 @@ const PortfolioHomepage = () => {
 };
 
 export default PortfolioHomepage;
+

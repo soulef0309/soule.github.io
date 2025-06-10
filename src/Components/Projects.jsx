@@ -8,6 +8,8 @@ const ProjectsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
+  box-sizing: border-box;
 `;
 
 const Title = styled.h1`
@@ -33,6 +35,7 @@ const SlideContainer = styled.div`
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  box-sizing: border-box;
   
   @media (max-width: 768px) {
     height: 500px;
@@ -65,13 +68,16 @@ const PhonePreview = styled.div`
 `;
 
 const PhoneFrame = styled.div`
-  width: 280px;
-  height: 500px;
+  width: 90%;
+  max-width: 280px;
+  height: 80vh;
+  max-height: 500px;
   background: #1f2937;
   border-radius: 30px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   position: relative;
+  box-sizing: border-box;
   
   &::before {
     content: '';
@@ -86,8 +92,10 @@ const PhoneFrame = styled.div`
   }
   
   @media (max-width: 768px) {
-    width: 240px;
-    height: 400px;
+    width: 90%;
+    max-width: 240px;
+    height: 70vh;
+    max-height: 400px;
   }
 `;
 
@@ -125,7 +133,8 @@ const DesktopPreview = styled.div`
 const DesktopSlideContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 60vh;
+  max-height: 350px;
   background: #1f2937;
   border-radius: 10px;
   padding: 10px;
@@ -134,7 +143,8 @@ const DesktopSlideContainer = styled.div`
   overflow: hidden;
   
   @media (max-width: 768px) {
-    height: 250px;
+    height: 40vh;
+    max-height: 250px;
   }
 `;
 

@@ -9,6 +9,9 @@ const AboutContainer = styled.div`
   background: linear-gradient(135deg, #fef7ed 0%, #fef3c7 50%, #fde68a 100%);
   position: relative;
   overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
   padding: 4rem;
   
   @media (max-width: 1024px) {
@@ -52,6 +55,12 @@ const LeftContent = styled.div`
   flex: 1;
   max-width: 32rem;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
 `;
 
 const Title = styled.h1`
@@ -140,10 +149,13 @@ const DecorativeShapes = styled.div`
   position: relative;
   width: 20rem;
   height: 20rem;
+  box-sizing: border-box;
   
   @media (max-width: 768px) {
-    width: 16rem;
-    height: 16rem;
+    width: 80%;
+    height: auto;
+    max-width: min(80vw, 16rem);
+    margin: 0 auto;
   }
   
   &::before,
