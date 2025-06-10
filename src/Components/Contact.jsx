@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -73,13 +73,6 @@ const StyledInput = styled.input`
     color: #64748b;
     font-weight: 400;
   }
-`;
-
-const EmailNote = styled.p`
-  color: #64748b;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
 `;
 
 const StyledTextarea = styled.textarea`
@@ -174,39 +167,6 @@ const ErrorMessage = styled.div`
   box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 `;
 
-const Instructions = styled.div`
-  background: rgba(255, 255, 255, 0.9);
-  padding: 1.5rem;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-`;
-
-const InstructionTitle = styled.h3`
-  color: #4A1E6B;
-  margin: 0 0 1rem 0;
-  font-size: 1.2rem;
-`;
-
-const InstructionList = styled.ul`
-  margin: 0;
-  padding-left: 1.5rem;
-  color: #4A1E6B;
-`;
-
-const InstructionItem = styled.li`
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-`;
-
-const Example = styled.div`
-  background: #f8fafc;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  border: 1px dashed #4A1E6B;
-`;
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -223,6 +183,34 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [emailjsLoaded, setEmailjsLoaded] = useState(false);
+
+  // Load EmailJS when component mounts
+  useEffect(() => {
+    const loadEmailJS = () => {
+      if (window.emailjs) {
+        setEmailjsLoaded(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+      script.async = true;
+      script.onload = () => {
+        if (window.emailjs) {
+          window.emailjs.init('qBB5lcefv4F0BKzaF');
+          setEmailjsLoaded(true);
+        }
+      };
+      script.onerror = () => {
+        console.error('Failed to load EmailJS');
+        setErrorMessage('Failed to load email service. Please try again later.');
+      };
+      document.head.appendChild(script);
+    };
+
+    loadEmailJS();
+  }, []);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -234,7 +222,8 @@ const Contact = () => {
       case 'email':
         if (!value) return 'Email is required';
         if (!value.includes('@')) return 'Email must include @ symbol';
-        if (!value.endsWith('@gmail.com')) return 'Please use a Gmail address (example@gmail.com)';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
         return '';
       case 'phone':
         if (value && value.length !== 10) return 'Phone number must be 10 digits';
@@ -299,26 +288,39 @@ const Contact = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
+      // EmailJS configuration
+      const serviceID = 'service_ye9hlyf';
+      const templateID = 'template_y1ytti5';
+      const publicKey = 'qBB5lcefv4F0BKzaF';
 
-      const data = await response.json();
+      // Template parameters that match your HTML template
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        time: new Date().toLocaleString()
+      };
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message');
+      // Send email using EmailJS
+      const response = await window.emailjs.send(
+        serviceID,
+        templateID,
+        templateParams,
+        publicKey
+      );
+
+      if (response.status === 200) {
+        setShowSuccess(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setTimeout(() => setShowSuccess(false), 5000);
+      } else {
+        throw new Error('Failed to send message');
       }
 
-      setShowSuccess(true);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setTimeout(() => setShowSuccess(false), 5000);
-
     } catch (err) {
-      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+      console.error('EmailJS Error:', err);
+      setErrorMessage('Something went wrong. Please try again.');
     }
 
     setIsSubmitting(false);
@@ -326,6 +328,16 @@ const Contact = () => {
 
   return (
     <Container>
+      {/* EmailJS Script - Load dynamically */}
+      {typeof window !== 'undefined' && !window.emailjs && (
+        <script 
+          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+          onLoad={() => {
+            window.emailjs.init('qBB5lcefv4F0BKzaF');
+          }}
+        />
+      )}
+      
       <FormWrapper>
         <Title>Get in Touch</Title>
         
@@ -375,12 +387,10 @@ const Contact = () => {
           <StyledInput
             type="tel"
             name="phone"
-            placeholder="Phone Number"
+            placeholder="Phone Number (Optional)"
             value={formData.phone}
             onChange={handleChange}
             maxLength={10}
-            pattern="[0-9]*"
-            inputMode="numeric"
           />
           {errors.phone && (
             <ValidationMessage>
