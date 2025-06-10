@@ -293,10 +293,13 @@ const Contact = () => {
       const templateID = 'template_y1ytti5';
       const publicKey = 'qBB5lcefv4F0BKzaF';
 
-      // Template parameters that match your HTML template
+      // UPDATED: Template parameters with proper variable names for EmailJS
       const templateParams = {
-        name: formData.name,
-        email: formData.email,
+        from_name: formData.name,        // User's name
+        from_email: formData.email,      // User's email address
+        reply_to: formData.email,        // Email to reply to
+        user_email: formData.email,      // Alternative variable name
+        sender_email: formData.email,    // Another alternative
         phone: formData.phone,
         message: formData.message,
         time: new Date().toLocaleString()
@@ -328,16 +331,6 @@ const Contact = () => {
 
   return (
     <Container>
-      {/* EmailJS Script - Load dynamically */}
-      {typeof window !== 'undefined' && !window.emailjs && (
-        <script 
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
-          onLoad={() => {
-            window.emailjs.init('qBB5lcefv4F0BKzaF');
-          }}
-        />
-      )}
-      
       <FormWrapper>
         <Title>Get in Touch</Title>
         
