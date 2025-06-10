@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Components/Header';
 import PortfolioHomepage from './Components/PortfolioHomepage';
-import About from './Components/About';
-import Skills from './Components/Skills';
-import Projects from './Components/Projects';
-import Contact from './Components/Contact';
+import About from './Components/About.jsx';
+import Skills from './Components/Skills.jsx';
+import Projects from './Components/Projects.jsx';
+import Contact from './Components/Contact.jsx';
 
 // Global styles to remove whitespace and reset browser defaults
 const GlobalStyle = createGlobalStyle`
