@@ -293,16 +293,13 @@ const Contact = () => {
       const templateID = 'template_y1ytti5';
       const publicKey = 'qBB5lcefv4F0BKzaF';
 
-      // UPDATED: Template parameters with proper variable names for EmailJS
+      // FIXED: Template parameters matching your EmailJS template variables
       const templateParams = {
-        from_name: formData.name,        // User's name
-        from_email: formData.email,      // User's email address
-        reply_to: formData.email,        // Email to reply to
-        user_email: formData.email,      // Alternative variable name
-        sender_email: formData.email,    // Another alternative
-        phone: formData.phone,
-        message: formData.message,
-        time: new Date().toLocaleString()
+        name: formData.name,             // Matches {{name}} in your template
+        email: formData.email,           // Sender's email address
+        phone: formData.phone,           // Matches {{phone}} in your template
+        message: formData.message,       // Matches {{message}} in your template
+        time: new Date().toLocaleString() // Matches {{time}} in your template
       };
 
       // Send email using EmailJS
