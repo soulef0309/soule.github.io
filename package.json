@@ -2,7 +2,8 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
-"homepage": ".",  "dependencies": {
+  "homepage": "https://soulef0309.github.io",
+  "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
