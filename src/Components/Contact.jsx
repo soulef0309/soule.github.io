@@ -412,7 +412,7 @@ const Contact = () => {
       </FormWrapper>
       
       <Footer>
-        © 2024 soule9933.github.io - Built with ❤️
+        © 2025 soule9933.github.io - Built with ❤️
       </Footer>
     </Container>
   );
